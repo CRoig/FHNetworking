@@ -4,7 +4,7 @@ import Starscream
 public class WebSocketNetworking: NSObject, WebSocketDelegate {
     
     private static var _sharedInstance: WebSocketNetworking?
-    struct WebSocketData {
+    public struct WebSocketData {
         let webSocketScheme: String
         let webSocketBaseURL: String
         let tokenItem: String
@@ -13,18 +13,18 @@ public class WebSocketNetworking: NSObject, WebSocketDelegate {
     }
     
     var socket: WebSocket?
-    var connected: Bool?
+    public var connected: Bool?
     
     let webSocketConstants: WebSocketData
     let symbols: [String]
-    var connectionCompleted: ()->()? = {}
-    var receivedStringCallback: ((String)->())?
+    public var connectionCompleted: ()->()? = {}
+    public var receivedStringCallback: ((String)->())?
     
-    class func setup(webSocketData: WebSocketData, symbols: [String]) {
+    public class func setup(webSocketData: WebSocketData, symbols: [String]) {
         _sharedInstance = WebSocketNetworking(webSocketConstants: webSocketData, symbols: symbols)
     }
     
-    class var sharedInstance: WebSocketNetworking {
+    public class var sharedInstance: WebSocketNetworking {
         if  _sharedInstance == nil {
             print("Shared called before setup")
             fatalError()
@@ -43,7 +43,7 @@ public class WebSocketNetworking: NSObject, WebSocketDelegate {
 // MARK: - Connection
 
 extension WebSocketNetworking {
-    func connectToSocket() {
+    public func connectToSocket() {
         if let url = generateConnectionURL(),
             let urlRequest = generateURLRequest(url) {
             socket = WebSocket(request: urlRequest)
@@ -52,7 +52,7 @@ extension WebSocketNetworking {
         }
     }
     
-    func disconnect() {
+    public func disconnect() {
         socket?.disconnect()
     }
     
@@ -144,7 +144,7 @@ extension WebSocketNetworking {
 // MARK: - Subscription
 
 extension WebSocketNetworking {
-    func subscribeToStocks(_ request: String) {
+    public func subscribeToStocks(_ request: String) {
         socket?.write(string: request, completion: nil)
     }
 }
