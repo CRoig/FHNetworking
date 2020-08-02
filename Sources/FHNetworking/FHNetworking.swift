@@ -1,7 +1,7 @@
 import Foundation
 import Starscream
 
-class WebSocketNetworking: NSObject, WebSocketDelegate {
+public class WebSocketNetworking: NSObject, WebSocketDelegate {
     
     private static var _sharedInstance: WebSocketNetworking?
     struct WebSocketData {
@@ -84,7 +84,7 @@ extension WebSocketNetworking {
 // MARK: - WebSocket delegate methods
 
 extension WebSocketNetworking {
-    func didReceive(event: WebSocketEvent, client: WebSocket) {
+    public func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .connected(let headers):
             connected = true
