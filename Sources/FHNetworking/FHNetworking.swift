@@ -10,6 +10,14 @@ public class WebSocketNetworking: NSObject, WebSocketDelegate {
         let tokenItem: String
         let requesTypeSubscription: String
         let accessToken: String
+        
+        public init(webSocketScheme: String, webSocketBaseURL: String, tokenItem: String, requesTypeSubscription: String,accessToken: String) {
+            self.webSocketScheme = webSocketScheme
+            self.webSocketBaseURL = webSocketBaseURL
+            self.tokenItem = tokenItem
+            self.requesTypeSubscription = requesTypeSubscription
+            self.accessToken = accessToken
+        }
     }
     
     var socket: WebSocket?
