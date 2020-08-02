@@ -25,7 +25,7 @@ public class WebSocketNetworking: NSObject, WebSocketDelegate {
     
     let webSocketConstants: WebSocketData
     let symbols: [String]
-    public var connectionCompleted: ()->()? = {}
+    public var connectionCompleted: ()->() = {}
     public var receivedStringCallback: ((String)->())?
     
     public class func setup(webSocketData: WebSocketData, symbols: [String]) {
