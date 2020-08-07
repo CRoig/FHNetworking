@@ -1,7 +1,7 @@
 import Foundation
 import Starscream
 
-public class WebSocketNetworking: NSObject, WebSocketDelegate {
+public class WebSocketNetworking: NSObject  {
     
     private static var _sharedInstance: WebSocketNetworking?
     public struct WebSocketData {
@@ -50,7 +50,7 @@ public class WebSocketNetworking: NSObject, WebSocketDelegate {
 
 // MARK: - Connection
 
-extension WebSocketNetworking {
+extension WebSocketNetworking: WebSocketDelegate {
     public func connectToSocket() {
         if let url = generateConnectionURL(),
             let urlRequest = generateURLRequest(url) {
@@ -92,40 +92,64 @@ extension WebSocketNetworking {
 // MARK: - WebSocket delegate methods
 
 extension WebSocketNetworking {
-    public func didReceive(event: WebSocketEvent, client: WebSocket) {
-        switch event {
-        case .connected(let headers):
-            connected = true
-            print("WebSocket is connected: \(headers)")
-            handleConnectedEvent()
-        case .disconnected(let reason, let code):
-            connected = false
-            reConnect()
-            print("WebSocket is disconnected: \(reason) with code: \(code)")
-        case .text(let string):
-            if string.contains("ping") {
-                //
-            } else {
-                handleReceivedString(string)
-            }
-        case .binary(let data):
-            print("Received data: \(data.count)")
-        case .ping(_):
-            break
-        case .pong(_):
-            break
-        case .viabilityChanged(_):
-            break
-        case .reconnectSuggested(_):
-            reConnect()
-            break
-        case .cancelled:
-            connected = false
-        case .error(let error):
-            connected = false
-            handleErrorEvent(error)
+    public func websocketDidConnect(socket: WebSocketClient) {
+        connected = true
+        print("WebSocket is connected")
+        handleConnectedEvent()
+    }
+    
+    public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+        connected = false
+        reConnect()
+        print("WebSocket is disconnected: \(String(describing: error?.localizedDescription)) with code: \(String(describing: error))")
+    }
+    
+    public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+        if text.contains("ping") {
+            //
+        } else {
+            handleReceivedString(text)
         }
     }
+    
+    public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+        print("Received data: \(data.count)")
+    }
+    
+//    public func didReceive(event: WebSocketEvent, client: WebSocket) {
+//        switch event {
+//        case .connected(let headers):
+//            connected = true
+//            print("WebSocket is connected: \(headers)")
+//            handleConnectedEvent()
+//        case .disconnected(let reason, let code):
+//            connected = false
+//            reConnect()
+//            print("WebSocket is disconnected: \(reason) with code: \(code)")
+//        case .text(let string):
+//            if string.contains("ping") {
+//                //
+//            } else {
+//                handleReceivedString(string)
+//            }
+//        case .binary(let data):
+//            print("Received data: \(data.count)")
+//        case .ping(_):
+//            break
+//        case .pong(_):
+//            break
+//        case .viabilityChanged(_):
+//            break
+//        case .reconnectSuggested(_):
+//            reConnect()
+//            break
+//        case .cancelled:
+//            connected = false
+//        case .error(let error):
+//            connected = false
+//            handleErrorEvent(error)
+//        }
+//    }
     
     // MARK: - Event handlers
     

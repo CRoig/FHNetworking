@@ -11,7 +11,7 @@ let package = Package(
             name: "FHNetworking",
             targets: ["FHNetworking"]),
     ],
-    dependencies: [ .package(name: "Starscream", url: "https://github.com/daltoniam/Starscream.git", from: "4.0.4")
+    dependencies: [ .package(name: "Starscream", url: "https://github.com/daltoniam/Starscream.git", from: "3.1.0")
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
